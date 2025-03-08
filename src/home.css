@@ -1,0 +1,447 @@
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css);
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
+/* Vars and Reset */
+:root {
+  --theme: #fc323b;
+  --dark-text: #fff;
+  --text-area: #1C1D24;
+
+}
+.btnbtn {
+  --p: 0;
+  --q: calc(1 - var(--p));
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  width: 12em;
+  background: #fff;
+  color: #000;
+  font: 700 1.125em/3 trebuchet ms, sans-serif;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: inline-block;
+  border: none;
+  border-radius: 3px
+}
+
+.btnbtn:before,
+.btnbtn:after {
+  --i: var(--p);
+  --j: calc(1 - var(--i));
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--j) * (100% - 12.36931688em));
+  width: 12.36931688em;
+  transform-origin: calc(var(--j) * 100%) calc(var(--i) * 100%);
+  transform: rotate(-14.03624347deg) translate(calc(var(--q) * (1 - 2 * var(--i)) * -100%));
+  box-shadow: 0 0 0 1px currentcolor;
+  background: currentcolor;
+  color: var(--theme);
+  transition: transform 0.5s ease-in-out;
+  content: "";
+  border-radius: 2px;
+}
+
+.btnbtn:after {
+  --i: var(--q);
+}
+
+.btnbtn:hover,
+.btnbtn:focus {
+  --p: 1;
+}
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+* {
+  margin: 0;
+  padding: 0;
+  /* font-size: 1.7vw; */
+}
+.load {
+  display: flex;
+  flex-direction: column;
+  gap: 8%;
+  align-items: center;
+  justify-content: center;
+  margin: 10% 0;
+}
+
+.App {
+ background: #0C0E12;
+    padding: 0px;
+  min-height: 100vh;
+}
+.Header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: blueviolet;
+  font-size: 4rem;
+  font-weight: 100;
+  color: aliceblue;
+  margin-bottom: 1.5%;
+  padding: 1%;
+}
+.inputHolder {
+  margin-top: 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2vw;
+  justify-content: flex-start;
+  margin-right: 4vw;
+}
+
+.mainWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2%;
+  margin-top: 1%;
+  /* margin-left: 6%; */
+  padding: 2%;
+}
+.imageholder {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  flex-direction: row;
+  gap: 4vw;
+  overflow: hidden;
+  justify-content: space-around;
+  margin-bottom: 2vh;
+  /* background-color: aqua; */
+}
+.imageholderbot{
+  display: flex;
+  flex-direction: column;
+}
+.videoconatinerbuttn{
+  display: flex;
+  font-display: row;
+  gap: 25px;
+}
+.videoFeed{
+  width: 40vw;
+  height: 30vw;
+  padding-left: 5vw;
+}
+.Img {
+  width: 40vw;
+  height: 30vw;
+  object-fit: contain;
+}
+
+.chatbot-search-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: var(--text-area);
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 600px;
+  margin: 20px auto;
+  flex-direction: column;
+}
+
+.chatbot-search-box {
+  width: 100%;
+  padding: 6px 12px;
+  border: 1px solid #1C1D24;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.3s;
+  background-color: #000;
+  color:#fff;
+}
+.chat-response-section {
+  background-color: #000; /* Light green background for a chat-like feel */
+  border: 1px solid #c8e6c9; /* Subtle border */
+  border-radius: 10px; /* Rounded corners */
+  padding: 15px; /* Increased padding for better spacing */
+  margin-top: 10px; /* Space between input and response */
+  width: 90%; /* Responsive width */
+  max-width: 600px; /* Maximum width */
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  overflow-x: auto; /* Scroll if content overflows */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Readable font */
+  font-size: 14px; /* Comfortable font size */
+  line-height: 1.6; /* Improved line spacing */
+  color: #fff; /* Darker text for better contrast */
+  word-wrap: break-word; /* Prevents long words from breaking layout */
+  height: 90%;
+}
+.chat-response-section pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+.chatbot-search-box:focus {
+  border-color: #fc323b;
+}
+
+.TiltleArt{
+  margin-top: 30px;
+  text-align: center;
+  font-size: 50px;
+  color: #fff;
+}
+
+
+.button:hover {
+  cursor: pointer;
+}
+.ResultDisplay {
+  /* border: 2px solid brown; */
+  margin-top: 5%;
+  /* margin-left: 3vw; */
+  width: max-content;
+  margin-right: 2vw;
+}
+.result {
+  background-color: aliceblue;
+  margin: 2%;
+  width: 100%;
+  border: 2px solid black;
+  padding: 1%;
+  display: flex;
+  line-height: 120%;
+  flex-direction: column;
+  border-radius: 5px;
+}
+.res0 {
+  background-color: black;
+  color: aliceblue;
+}
+.bestGuess {
+  background-color: white;
+  color: black;
+  border: 0.2px solid black;
+  margin: 2%;
+  align-self: self-end;
+  margin-top: 0.1%;
+}
+.confidence {
+  display: flex;
+  justify-content: space-between;
+}
+input {
+  width: 47vw;
+  height: auto;
+}
+.uploadInp {
+  visibility: hidden;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+.recent {
+  display: flex;
+  gap: 1%;
+  flex-wrap: wrap;
+}
+.histImg {
+  width: 15vw;
+  height: 15vw;
+  object-fit: contain;
+}
+.histImg:hover {
+  cursor: pointer;
+}
+
+/* upload file style */
+
+.uploader {
+  display: block;
+  clear: both;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 600px;
+}
+
+.uploader label {
+  float: left;
+  clear: both;
+  width: 100%;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background: #1C1D24;
+  border-radius: 7px;
+  border: 3px solid #5f6982;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.uploader label:hover {
+  border-color: var(--theme);
+}
+
+.uploader label.hover {
+  border: 3px solid var(--theme);
+  box-shadow: inset 0 0 0 6px #eee;
+}
+
+.uploader label.hover #start i.fa {
+  transform: scale(0.8);
+  opacity: 0.3;
+}
+
+.uploader #start {
+  float: left;
+  clear: both;
+  width: 100%;
+}
+
+.uploader #start.hidden {
+  display: none;
+}
+
+.uploader #start i.fa {
+  font-size: 50px;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.uploader #response {
+  float: left;
+  clear: both;
+  width: 100%;
+}
+
+.uploader #response.hidden {
+  display: none;
+}
+
+.uploader #response #messages {
+  margin-bottom: 0.5rem;
+}
+
+.uploader #file-image {
+  display: inline;
+  margin: 0 auto 0.5rem auto;
+  width: auto;
+  height: auto;
+  max-width: 180px;
+}
+
+.uploader #file-image.hidden {
+  display: none;
+}
+
+.uploader #notimage {
+  display: block;
+  float: left;
+  clear: both;
+  width: 100%;
+}
+
+.uploader #notimage.hidden {
+  display: none;
+}
+
+.uploader progress,
+.uploader .progress {
+  /* appearance: none; */
+  display: inline;
+  clear: both;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 180px;
+  height: 8px;
+  border: 0;
+  border-radius: 4px;
+  background-color: #eee;
+  overflow: hidden;
+}
+
+.uploader .progress[value]::-webkit-progress-bar {
+  border-radius: 4px;
+  background-color: #eee;
+}
+
+.uploader .progress[value]::-webkit-progress-value {
+  background: linear-gradient(
+    to right,
+    darken(var(--theme), 8%) 0%,
+    var(--theme) 50%
+  );
+  border-radius: 4px;
+}
+
+.uploader .progress[value]::-moz-progress-bar {
+  background: linear-gradient(
+    to right,
+    darken(var(--theme), 8%) 0%,
+    var(--theme) 50%
+  );
+  border-radius: 4px;
+}
+
+.uploader input[type="file"] {
+  display: none;
+}
+
+.uploader div {
+  margin: 0 0 0.5rem 0;
+  color: var(--dark-text);
+}
+
+.uploader .btn {
+  display: inline-flex; /* Use flexbox for better alignment */
+  align-items: center; /* Vertically center content */
+  justify-content: center; /* Horizontally center content */
+  margin: 0.5rem; /* Simplified margin */
+  font-family: inherit;
+  font-weight: 600; /* Slightly lighter font weight for a modern look */
+  font-size: 14px;
+  text-decoration: none;
+  text-transform: none; /* Removed initial, which is the default */
+  border: 2px solid var(--theme); /* Explicit border */
+  border-radius: 0.3rem; /* Slightly more rounded corners */
+  outline: none;
+  padding: 0 1.2rem; /* Adjusted padding */
+  height: 40px; /* Slightly taller button */
+  line-height: 1; /* Simplified line-height */
+  color: #fff;
+  background-color: var(--theme);
+  transition: all 0.3s ease-in-out; /* Smoother transition */
+  cursor: pointer;
+  letter-spacing: 1.5px;
+}
+
+.uploader .btn:hover {
+  background-color: transparent; /* Changed to transparent */
+  color: var(--theme);
+  border-color: var(--theme);
+  transition: all 0.3s ease-in-out;
+   
+}
+
+.uploader .btn:focus { /* Added focus state */
+  box-shadow: 0 0 0 2px rgba(var(--theme-rgb), 0.3); /* Subtle focus ring */
+}
+
+.uploader .btn:active { /* Added active state */
+  transform: scale(0.98); /* Slight shrink on click */
+}
+.videoContainer{
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  align-items: center;
+  gap: 20px;
+}
+
+/*Progress bar*/
