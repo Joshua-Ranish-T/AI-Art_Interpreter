@@ -79,17 +79,7 @@ body {
     padding: 0px;
   min-height: 100vh;
 }
-.Header {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  background-color: blueviolet;
-  font-size: 4rem;
-  font-weight: 100;
-  color: aliceblue;
-  margin-bottom: 1.5%;
-  padding: 1%;
-}
+
 .inputHolder {
   margin-top: 5%;
   display: flex;
@@ -444,4 +434,3 @@ input {
   gap: 20px;
 }
 
-/*Progress bar*/

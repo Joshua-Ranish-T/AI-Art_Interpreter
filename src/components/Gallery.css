@@ -1,0 +1,89 @@
+/*History bar*/
+.history-container {
+    padding: 20px;
+    background-color: #0C0E12;
+    color: white;
+    margin-top: 30px;
+  }
+  
+  .history-items {
+    display: flex;
+    overflow-x: auto;
+    gap: 30px;
+    padding: 40px;
+  }
+  
+  .history-item {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #333;
+    padding: 10px;
+    border-radius: 8px;
+    width: 300px;
+    min-width: 300px;
+    height: 300px;
+    justify-content: center;
+    align-items: center;
+    background-color: #1C1D24;
+    cursor: pointer;
+  }
+  
+  .history-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 5px;
+  }
+  
+  .image-data-display {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #1c1d24;
+    padding: 20px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: white;
+    z-index: 1000;
+    width: 1000px;
+    height: 650px;
+    overflow-y: auto;
+  }
+  
+  .image-data-display h3 {
+    margin-bottom: 10px;
+  }
+  
+  /* Fix for button alignment */
+  .image-data-display > div:last-child {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    width: 100%; /* Ensure the container takes full width */
+  }
+  
+  /* Scrollbar styling */
+  .image-data-display::-webkit-scrollbar {
+    width: 8px; /* Adjust width as needed */
+  }
+  
+  .image-data-display::-webkit-scrollbar-track {
+    background: #1c1d24; /* Background color of the track */
+  }
+  
+  .image-data-display::-webkit-scrollbar-thumb {
+    background: #fc323b; /* Pink color for the thumb */
+    border-radius: 4px; /* Optional: Rounded corners for the thumb */
+  }
+  
+  .image-data-display::-webkit-scrollbar-thumb:hover {
+    background: #e02831; /* Slightly darker pink on hover */
+  }
+  
+  .image-data-display {
+    -ms-overflow-style: scrollbar; /* IE and Edge */
+    scrollbar-width: thin; /* Firefox */
+  }

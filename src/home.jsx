@@ -5,8 +5,6 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import ProgressBar from "@ramonak/react-progress-bar";
 import CameraEnhanceIcon from "@mui/icons-material/CameraEnhance";
 import CameraIcon from "@mui/icons-material/Camera";
@@ -15,7 +13,8 @@ import SendIcon from "@mui/icons-material/Send";
 import LOGO from "./Assets/logo.png";
 //youTube video
 import DOMPurify from "dompurify";
-import YouTubeEmbed from "./components/YouTubeEmbed";
+import { ToastContainer, toast } from "react-toastify";
+import Gallery from "./components/Gallery";
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const Home = () => {
@@ -35,7 +34,7 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState(""); // YouTube search query
   const [loadingTube, setLoadingTube] = useState(false); // Loading state
   const fileInputRef = useRef(null); // Reference for file input
-
+  const [history, setHistory] = useState([]);
 
   const extractVideoInfo = (markdown) => {
     const videoIdsMatch = markdown.match(/Video ID: `(.*?)`/g);
@@ -57,8 +56,8 @@ const Home = () => {
 
   useEffect(() => {
     if (response) {
-      console.log("AI Response:", response); // For debugging
       extractVideoInfo(response);
+      toast.success("AIzen finished Analyzing !!");
     }
   }, [response]);
 
@@ -93,6 +92,7 @@ const Home = () => {
           clearInterval(interval);
         }
       }, 50);
+    
     }
   };
 
@@ -143,34 +143,268 @@ const Home = () => {
     return new File([u8arr], filename, { type: mime });
   };
 
-  const analyzeImage = async (isChatbot = false) => {
-    if (!apiKey) {
-      setResponse(
-        "❌ REACT_APP_GEMINI_API_KEY is missing! Please check your .env file."
-      );
-      return;
-    }
-    if (!imageFile && !userInput && !isChatbot) {
-      setResponse("❌ Please upload an image to analyze.");
-      return;
-    }
-    if (!imageFile && userInput && isChatbot) {
-      setChatResponse(
-        "❌ Please upload an image first to ask questions about it."
-      );
-      return;
-    }
+//   const analyzeImage = async (isChatbot = false) => {
+//     if (!apiKey) {
+//       setResponse(
+//         "❌ REACT_APP_GEMINI_API_KEY is missing! Please check your .env file."
+//       );
+//       return;
+//     }
+//     if (!imageFile && !userInput && !isChatbot) {
+//       setResponse("❌ Please upload an image to analyze.");
+//       return;
+//     }
+//     if (!imageFile && userInput && isChatbot) {
+//       setChatResponse(
+//         "❌ Please upload an image first to ask questions about it."
+//       );
+//       return;
+//     }
 
-    setLoading(true);
-    if (!isChatbot) {
-      setResponse("");
-    } else {
-      setChatResponse("");
-    }
+//     setLoading(true);
+//     if (!isChatbot) {
+//       setResponse("");
+//     } else {
+//       setChatResponse("");
+//     }
 
-    let prompt = isChatbot
-      ? `You are Aizen, an AI partner for Art INTERPRETATOR and you are an expert art historian, battle strategist, and curator with access to a comprehensive art database. Answer the following question regarding the previously provided image.\n\nUser Question: ${userInput}\n\nAlbert's Response:`
-      : `
+//     let prompt = isChatbot
+//       ? `You are Aizen, an AI partner for Art INTERPRETATOR and you are an expert art historian, battle strategist, and curator with access to a comprehensive art database. Answer the following question regarding the previously provided image.\n\nUser Question: ${userInput}\n\nAlbert's Response:`
+//       : `
+//       You are Aizen, an AI partner for Art INTERPRETATION and you are an expert art historian, battle strategist, and curator with access to a comprehensive art database. Your task is to analyze the provided artwork and/or query, delivering a detailed report in Markdown format, akin to a scholarly art historical analysis.
+
+// **Report Structure:**
+
+// ---
+
+// **1. Identification and Verification:**
+
+// * **Title:** {{Artwork Title or "Unknown"}}
+// * **Artist:** {{Artist Name or "Unknown"}}
+// * **Alternative Possibilities:** {{Other possible artists or titles}}
+// * **Source Verification:** {{Cross-referenced sources or "Unavailable"}}
+
+// ---
+
+// **2. Detailed Analysis:**
+
+// * Provide a comprehensive, paragraph-style explanation of the artwork's significance, themes, and interpretation.
+
+// ---
+
+// **3. Artist's Biography:**
+
+// * **Name:** {{Artist Name}}
+// * **Lifespan:** {{Born – Died}}
+// * **Style:** {{Art Style}}
+// * **Notable Works:** {{Examples}}
+// * **Bio:** {{Brief summary}}
+
+// ---
+
+// **4. Historical Context:**
+
+// * **Period:** {{Historical Period}}
+// * **Events:** {{Key events}}
+// * **Significance:** {{Cultural impact}}
+// * **Location:** {{Where created or depicts}}
+
+// ---
+
+// **5. Visual Analysis:**
+
+// * **Composition:** {{Arrangement of figures and objects}}
+// * **Colors:** {{Dominant colors and mood}}
+// * **Technique:** {{Brushwork and style}}
+// * **Depiction of Subject:** {{How it’s portrayed}}
+
+// ---
+
+// **6. Artistic Interpretation:**
+
+// * Describe the symbolism, themes, and intended message of the artwork in paragraph form.
+
+// ---
+
+// **7. Accuracy and Authenticity:**
+
+// * **Accuracy:** {{How true to history}}
+// * **Discrepancies:** {{Known inaccuracies}}
+
+// ---
+
+// **8. Additional Facts:**
+
+// * **Trivia:** {{Interesting facts}}
+// * **Influence:** {{Impact on art or artists}}
+
+// ---
+
+// **9. Current Location/Ownership:**
+
+// * **Location:** {{Gallery, museum, or owner}}
+// * **Acquisition:** {{How it was obtained}}
+
+// ---
+
+// **10. More References:**
+
+// * Include a section called More References that contains links to art-related websites, including Wikipedia, and then provide the link. Structure the More References section like this, and use a point-wise list.
+
+//     * **[Website Name]** : {{link}}
+//     * **[Website Name]** : {{link}}
+//     * **[Website Name]** : {{link}}
+
+//     *Ensure that the Wikipedia link accurately points to the specific art piece.
+//     *The link should be in link format so that while clicking it should open the particular page.
+//     *Impotant One link is enough for each website and just website name is enough
+// ---
+
+// **11. Related YouTube Videos (If Valid IDs Found):**
+
+// * **Search Query:** "{{Exact Artwork Title from Section 1}} analysis"
+// * **Criteria:** Include ONLY videos related to Search Query. Omit irrelevant videos.
+// * **Format:**
+//     * Video ID: \`{{YouTube Video ID 1}}\`
+//     * Video ID: \`{{YouTube Video ID 2}}\`
+//     * Video ID: \`{{YouTube Video ID 3}}\`
+// * **Condition:** If no valid IDs exist for the exact artwork title, OMIT this section entirely.
+
+// ---
+
+// **Considerations:**
+
+// * Provide thorough research and analysis.
+// * Use clear and precise language.
+// * Back up your assertions with evidence.
+// * Interpret the artwork within its historical and cultural context.
+// * If the user asks a question, answer it within the relevant sections of the report.
+// * *Instructions:*
+//     * Provide as much detail as possible, including specific dates, names, and locations.
+//     * Cite any sources you use to support your analysis.
+//     * If the image is unclear or the artwork is difficult to identify, explain why and provide potential hypotheses.
+//     * Prioritize factual accuracy.
+//     * Maintain a consistent and detailed level of response.
+//     * Use markdown formatting.
+//     * Provide a compact answer, and do not ramble.
+// * *Consistency:*
+//     * Answer the same image the same way each time.
+//     * Use a low temperature setting to decrease variance.
+//     * ***Also very very very very important is to first describe it in a brief the link and then give the link.
+
+// **User Input:** ${userInput}
+
+// **Aizen's Response:**`;
+
+//     try {
+//       const parts = [];
+//       if (imageFile) {
+//         const reader = new FileReader();
+//         reader.onloadend = async () => {
+//           const base64Image = reader.result.split(",")[1];
+//           const mimeType = imageFile.type;
+
+//           parts.push({
+//             inlineData: {
+//               data: base64Image,
+//               mimeType: mimeType,
+//             },
+//           });
+
+//           if (userInput && isChatbot) {
+//             // No need to add userInput again for chatbot, it's already in the prompt
+//           } else if (userInput && !isChatbot) {
+//             parts.push({ text: userInput });
+//           }
+
+//           setHistory((prevHistory) => [
+//             ...prevHistory,
+//             { imgUrl: imgUrl },
+//           ]);
+
+//           try {
+//             const result = await model.generateContent({
+//               contents: [{ parts: [{ text: prompt }, ...parts] }],
+//               generationConfig,
+//             });
+
+//             const generatedText =
+//               result.response?.text?.() || "No response received.";
+//             if (isChatbot) {
+//               setChatResponse(generatedText);
+//             } else {
+//               setResponse(generatedText);
+//             }
+//           } catch (error) {
+//             console.error("API Error:", error.message);
+//             if (isChatbot) {
+//               setChatResponse(
+//                 `❌ Error communicating with the API: ${error.message}`
+//               );
+//             } else {
+//               setResponse(
+//                 `❌ Error communicating with the API: ${error.message}`
+//               );
+//             }
+//           } finally {
+//             setLoading(false);
+//           }
+//         };
+//         reader.readAsDataURL(imageFile);
+//       } else if (userInput && !isChatbot) {
+//         try {
+//           const result = await model.generateContent({
+//             contents: [{ parts: [{ text: prompt + userInput }] }],
+//             generationConfig,
+//           });
+
+//           const generatedText =
+//             result.response?.text?.() || "No response received.";
+//           setResponse(generatedText);
+//         } catch (error) {
+//           console.error("API Error:", error.message);
+//           setResponse(`❌ Error communicating with the API: ${error.message}`);
+//         } finally {
+//           setLoading(false);
+//         }
+//       }
+//     } catch (error) {
+//       console.error("API Error:", error.message);
+//       if (isChatbot) {
+//         setChatResponse(
+//           `❌ Error communicating with the API: ${error.message}`
+//         );
+//       } else {
+//         setResponse(`❌ Error communicating with the API: ${error.message}`);
+//       }
+//       setLoading(false);
+//     }
+//   };
+
+const analyzeImage = async (isChatbot = false) => {
+  if (!apiKey) {
+    setResponse("❌ REACT_APP_GEMINI_API_KEY is missing! Please check your .env file.");
+    return;
+  }
+  if (!imageFile && !userInput && !isChatbot) {
+    setResponse("❌ Please upload an image to analyze.");
+    return;
+  }
+  if (!imageFile && userInput && isChatbot) {
+    setChatResponse("❌ Please upload an image first to ask questions about it.");
+    return;
+  }
+
+  setLoading(true);
+  if (!isChatbot) {
+    setResponse("");
+  } else {
+    setChatResponse("");
+  }
+
+  let prompt = isChatbot
+    ? `You are Aizen, an AI partner for Art INTERPRETATOR and you are an expert art historian, battle strategist, and curator with access to a comprehensive art database. Answer the following question regarding the previously provided image.\n\nUser Question: ${userInput}\n\nAlbert's Response:`
+    : `
       You are Aizen, an AI partner for Art INTERPRETATION and you are an expert art historian, battle strategist, and curator with access to a comprehensive art database. Your task is to analyze the provided artwork and/or query, delivering a detailed report in Markdown format, akin to a scholarly art historical analysis.
 
 **Report Structure:**
@@ -255,8 +489,9 @@ const Home = () => {
     * **[Website Name]** : {{link}}
     * **[Website Name]** : {{link}}
 
-    Ensure that the Wikipedia link accurately points to the specific art piece.
-    The link should be in link format so that while clicking it should open the particular page.
+    *Ensure that the Wikipedia link accurately points to the specific art piece.
+    *The link should be in link format so that while clicking it should open the particular page.
+    *Impotant One link is enough for each website and just website name is enough
 ---
 
 **11. Related YouTube Videos (If Valid IDs Found):**
@@ -295,86 +530,85 @@ const Home = () => {
 
 **Aizen's Response:**`;
 
-    try {
-      const parts = [];
-      if (imageFile) {
-        const reader = new FileReader();
-        reader.onloadend = async () => {
-          const base64Image = reader.result.split(",")[1];
-          const mimeType = imageFile.type;
+  try {
+    const parts = [];
+    if (imageFile) {
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64Image = reader.result.split(",")[1];
+        const mimeType = imageFile.type;
 
-          parts.push({
-            inlineData: {
-              data: base64Image,
-              mimeType: mimeType,
-            },
-          });
+        parts.push({
+          inlineData: {
+            data: base64Image,
+            mimeType: mimeType,
+          },
+        });
 
-          if (userInput && isChatbot) {
-            // No need to add userInput again for chatbot, it's already in the prompt
-          } else if (userInput && !isChatbot) {
-            parts.push({ text: userInput });
-          }
+        if (userInput && isChatbot) {
+          // No need to add userInput again for chatbot, it's already in the prompt
+        } else if (userInput && !isChatbot) {
+          parts.push({ text: userInput });
+        }
 
-          try {
-            const result = await model.generateContent({
-              contents: [{ parts: [{ text: prompt }, ...parts] }],
-              generationConfig,
-            });
-
-            const generatedText =
-              result.response?.text?.() || "No response received.";
-            if (isChatbot) {
-              setChatResponse(generatedText);
-            } else {
-              setResponse(generatedText);
-            }
-          } catch (error) {
-            console.error("API Error:", error.message);
-            if (isChatbot) {
-              setChatResponse(
-                `❌ Error communicating with the API: ${error.message}`
-              );
-            } else {
-              setResponse(
-                `❌ Error communicating with the API: ${error.message}`
-              );
-            }
-          } finally {
-            setLoading(false);
-          }
-        };
-        reader.readAsDataURL(imageFile);
-      } else if (userInput && !isChatbot) {
         try {
           const result = await model.generateContent({
-            contents: [{ parts: [{ text: prompt + userInput }] }],
+            contents: [{ parts: [{ text: prompt }, ...parts] }],
             generationConfig,
           });
 
-          const generatedText =
-            result.response?.text?.() || "No response received.";
-          setResponse(generatedText);
+          const generatedText = result.response?.text?.() || "No response received.";
+          if (isChatbot) {
+            setChatResponse(generatedText);
+          } else {
+            setResponse(generatedText);
+            setHistory((prevHistory) => [
+              ...prevHistory,
+              { imgUrl: imgUrl, data: { response: generatedText } },
+            ]);
+          }
         } catch (error) {
           console.error("API Error:", error.message);
-          setResponse(`❌ Error communicating with the API: ${error.message}`);
+          if (isChatbot) {
+            setChatResponse(`❌ Error communicating with the API: ${error.message}`);
+          } else {
+            setResponse(`❌ Error communicating with the API: ${error.message}`);
+          }
         } finally {
           setLoading(false);
         }
-      }
-    } catch (error) {
-      console.error("API Error:", error.message);
-      if (isChatbot) {
-        setChatResponse(
-          `❌ Error communicating with the API: ${error.message}`
-        );
-      } else {
-        setResponse(`❌ Error communicating with the API: ${error.message}`);
-      }
-      setLoading(false);
-    }
-  };
+      };
+      reader.readAsDataURL(imageFile);
+    } else if (userInput && !isChatbot) {
+      try {
+        const result = await model.generateContent({
+          contents: [{ parts: [{ text: prompt + userInput }] }],
+          generationConfig,
+        });
 
+        const generatedText = result.response?.text?.() || "No response received.";
+        setResponse(generatedText);
+        setHistory((prevHistory) => [
+          ...prevHistory,
+          { imgUrl: null, data: { response: generatedText } },
+        ]);
+      } catch (error) {
+        console.error("API Error:", error.message);
+        setResponse(`❌ Error communicating with the API: ${error.message}`);
+      } finally {
+        setLoading(false);
+      }
+    }
+  } catch (error) {
+    console.error("API Error:", error.message);
+    if (isChatbot) {
+      setChatResponse(`❌ Error communicating with the API: ${error.message}`);
+    } else {
+      setResponse(`❌ Error communicating with the API: ${error.message}`);
+    }
+    setLoading(false);
+  }
+};
   const handleInputChange = (event) => {
     setUserInput(event.target.value);
   };
@@ -416,7 +650,7 @@ const Home = () => {
                 Image has been uploaded
                 <ProgressBar
                   completed={uploadProgress}
-                  bgColor="#87CEEB"
+                  bgColor="#fc323b"
                   height="15px"
                   width="80%"
                   margin="10px auto"
@@ -645,7 +879,14 @@ const Home = () => {
                     .replace(
                       /(?:\n|^) ?\*\*11\. Related YouTube Videos[\s\S]*$/g,
                       ""
-                    ) // Improved regex to hide section 11+
+                    ) 
+                   
+                    .replace(
+                      /\[(.*?)\]\((.*?)\)/g,
+                      "<a href='$2' target='_blank' rel='noopener noreferrer' style='color: #3a5bbf; '>$1</a>"
+                    )
+                    // Improved regex to hide section 11+
+                    // Makes links clickable and opens in a new tab
                     .replace(
                       /---/g,
                       "<hr style='border-top: 1px solid #fc323b; margin: 20px 0; font-weight: 800; font-size: 1.8em;'/>"
@@ -656,6 +897,7 @@ const Home = () => {
                     )
                     .replace(/\*(.*?)\*/g, "<em>$1</em>")
                     .replace(/\n/g, "<br />"),
+                    
                 }}
               />
             </div>
@@ -701,6 +943,8 @@ const Home = () => {
           )}
         </div>
       </div>
+      <Gallery history={history}/>
+      <ToastContainer />
       <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
     </div>
   );
