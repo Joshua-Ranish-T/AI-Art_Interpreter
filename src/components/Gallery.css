@@ -48,8 +48,12 @@
     border-radius: 8px;
     color: white;
     z-index: 1000;
-    width: 1000px;
+    width: 900px;
     height: 650px;
+  }
+  .dddd{
+    display: flex;
+    flex-direction: column;
     overflow-y: auto;
   }
   
@@ -66,24 +70,32 @@
   }
   
   /* Scrollbar styling */
-  .image-data-display::-webkit-scrollbar {
-    width: 8px; /* Adjust width as needed */
-  }
-  
-  .image-data-display::-webkit-scrollbar-track {
-    background: #1c1d24; /* Background color of the track */
-  }
-  
-  .image-data-display::-webkit-scrollbar-thumb {
-    background: #fc323b; /* Pink color for the thumb */
-    border-radius: 4px; /* Optional: Rounded corners for the thumb */
-  }
-  
-  .image-data-display::-webkit-scrollbar-thumb:hover {
-    background: #e02831; /* Slightly darker pink on hover */
-  }
-  
-  .image-data-display {
-    -ms-overflow-style: scrollbar; /* IE and Edge */
-    scrollbar-width: thin; /* Firefox */
-  }
+ /* Scrollbar styling */
+.dddd::-webkit-scrollbar {
+  width: 8px; /* Adjust width as needed */
+  height: 8px; /* For horizontal scrollbars */
+}
+
+/* Hide scrollbar track */
+.dddd::-webkit-scrollbar-track {
+  background: transparent; /* Makes the track invisible */
+}
+
+/* Pink scrollbar thumb */
+.dddd::-webkit-scrollbar-thumb {
+  background: #fc323b; /* Pink color for the thumb */
+  border-radius: 4px; /* Optional: Rounded corners for the thumb */
+  border: 2px solid transparent; /* Adds padding around the thumb */
+  background-clip: content-box; /* Ensures the border doesn't overlap the thumb */
+}
+
+.dddd::-webkit-scrollbar-thumb:hover {
+  background: #e02831; /* Slightly darker pink on hover */
+}
+
+/* Ensure scrollbar visibility on different browsers */
+.dddd {
+  -ms-overflow-style: scrollbar; /* IE and Edge */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #fc323b transparent; /* Pink thumb with transparent track */
+}

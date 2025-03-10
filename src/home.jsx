@@ -15,6 +15,7 @@ import LOGO from "./Assets/logo.png";
 import DOMPurify from "dompurify";
 import { ToastContainer, toast } from "react-toastify";
 import Gallery from "./components/Gallery";
+import TextToSpeech from "./TextToSpeech ";
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const Home = () => {
@@ -902,6 +903,7 @@ const analyzeImage = async (isChatbot = false) => {
               />
             </div>
           )}
+           <TextToSpeech response={response}/>
           {videoIds.length > 0 && (
             <div style={{ marginTop: "30px" }}>
               <h2
@@ -946,6 +948,7 @@ const analyzeImage = async (isChatbot = false) => {
       <Gallery history={history}/>
       <ToastContainer />
       <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
+     
     </div>
   );
 };

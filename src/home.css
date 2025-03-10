@@ -434,3 +434,8 @@ input {
   gap: 20px;
 }
 
+.pwpew{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
