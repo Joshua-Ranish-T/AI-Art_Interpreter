@@ -1,4 +1,4 @@
-# AI Art Analyzer using Gemini API
+# AI Art Analyzer/Interpreter
 
 This project provides an AI art analyzer, leveraging the Gemini API to analyze and explain AI-generated images. It focuses on providing insightful interpretations of artwork by combining computer vision analysis with the powerful language capabilities of Gemini.
 
