@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from "@mui/material/Button";
 import CancelIcon from "@mui/icons-material/Cancel";
-import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 
 const TextToSpeech = ({ response }) => {
